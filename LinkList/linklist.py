@@ -1,3 +1,23 @@
+"""
+Design your implementation of the linked list. You can choose to use a singly or doubly linked list.
+A node in a singly linked list should have two attributes: val and next. val is the value of the current node, and next is a pointer/reference to the next node.
+If you want to use the doubly linked list, you will need one more attribute prev to indicate the previous node in the linked list. Assume all nodes in the linked list are 0-indexed.
+
+Implement the MyLinkedList class:
+
+* MyLinkedList() Initializes the MyLinkedList object.
+* int get(int index) Get the value of the indexth node in the linked list. If the index is invalid, return -1.
+* void addAtHead(int val) Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list.
+* void addAtTail(int val) Append a node of value val as the last element of the linked list.
+* void addAtIndex(int index, int val) Add a node of value val before the indexth node in the linked list. If index equals the length of the linked list, the node will be appended to the end of the linked list. If index is greater than the length, the node will not be inserted.
+* void deleteAtIndex(int index) Delete the indexth node in the linked list, if the index is valid.
+"""
+
+
+
+from os import link
+from re import L
+
 
 class Node:
     def __init__(self,val) -> None:
@@ -11,12 +31,14 @@ class MyLinkedList:
         self.count=0
     
     def get(self, index: int) -> int:
+    
         if self.count>index:
             curr = self.head
             for i in range(index):
                 curr =curr.nextptr
             return curr.val
-        if self.count<0:
+            
+        if self.count<=0:
             return -1
         else:
             return -1
@@ -24,57 +46,85 @@ class MyLinkedList:
 
 
     def addAtHead(self, val: int) -> None:
+        if self.count ==0:
+            node = Node(val)
+            self.head=node
+            node.nextptr = None
+        else:
+            node = Node(val)
+            node.nextptr = self.head
+            self.head=node 
 
-        node = Node(val)
-        self.head=node
         self.count+=1
-        node.nextptr = None
+        
+        
     def addAtTail(self, val: int) -> None:
         node = Node(val)
+        if self.count ==0:
+            self.head = node
+        
+        
         curr = self.head
-        if(self.count==1):
-            curr.nextptr=node
+        
+        for i in range(self.count-1):
+            curr = curr.nextptr
+        curr.nextptr=node
         node.nextptr=None
+        
         self.count+=1   
     def addAtIndex(self, index: int, val: int) -> None:
-        
         if index <=self.count:
-
             node = Node(val)        
-            curr =self.head
-            index = index-1
-            # print("ADD in INDEX :",index)
-            for i in range(self.count):
+            print(self.count)
+            if self.count==0:
+                self.head = node
+            if index ==0:
+                node.nextptr=self.head
+                self.head=node
                 
-                if i>=0:
-                    if i-1 == index-1:
-                        before_addr = curr.nextptr
-                        curr.nextptr=node
-                        
-                    if i == index:
-                        node.nextptr=before_addr
-                    curr = curr.nextptr
+            elif index <=self.count:
+
+                curr =self.head
+                index = index-1
+                # print("ADD in INDEX :",index)
+                for i in range(self.count):
                     
+                    if i>=0:
+                        if i-1 == index-1:
+                            before_addr = curr.nextptr
+                            curr.nextptr=node
+                            
+                        if i == index:
+                            node.nextptr=before_addr
+                        curr = curr.nextptr
+                        
             self.count+=1    
 
     def deleteAtIndex(self, index: int) -> None:
-        if self.count >0:
+        
+        if self.count >=0:
             if self.count >index:
                 curr = self.head
             # set index
                 index = index-1
-                for i in range(self.count):
-                    #before addr
-                    if i-1 == index-1:
-                        before_address = curr
-                    curr = curr.nextptr
-                #after addr
-                    
-                    if i == index+1:
-                        after_address = curr
-                #link before after
-                if(self.count>2):
-                    before_address.nextptr=after_address
+                if index>=0:
+                    for i in range(self.count):
+                        #before addr
+                        if i-1 == index-1:
+                            before_address = curr
+                        curr = curr.nextptr
+                    #after addr
+                        
+                        if i == index+1:
+                            after_address = curr
+                    #link before after
+                    if(self.count>2):
+                        before_address.nextptr=after_address
+                if index ==-1:
+                    curr = self.head
+                    for i in range(1):
+                        curr = curr.nextptr
+                    self.head =curr
                 self.count-=1
         
 
@@ -88,24 +138,10 @@ class MyLinkedList:
             else:
                 print("(",curr.val,")","--> ",end="")
             curr = curr.nextptr
-link_list = MyLinkedList()
-link_list.addAtHead(1)
-# link_list.show_linklist()
-# link_list.addAtTail(3)
-# link_list.show_linklist()
-# link_list.addAtIndex(1,2)
-# print(link_list.get(1))
-# link_list.addAtHead(4)
-# link_list.show_linklist()
-link_list.deleteAtIndex(0)
-# link_list.addAtIndex(1,4)
-# link_list.addAtIndex(3,2)
-link_list.show_linklist()
 
-# print(link_list.get(2))
-
-
+#Test Case
 """
-["MyLinkedList","addAtHead","addAtHead","addAtHead","addAtIndex","deleteAtIndex","addAtHead","addAtTail","get","addAtHead","addAtIndex","addAtHead"]
-[[],[7],[2],[1],[3,0],[2],[6],[4],[4],[4],[5,0],[6]]
-"""
+["MyLinkedList","addAtIndex","addAtIndex","addAtIndex","get"]
+[[],[0,10],[0,20],[1,30],[0]]
+
+# """
